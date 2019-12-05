@@ -15,16 +15,16 @@ const generatePointsFromPath = (commands) => {
     for (let i = 0; i < steps; i++) {
       switch (direction) {
         case 'L':
-          x = x - 1
+          x--
           break
         case 'U':
-          y = y + 1
+          y++
           break
         case 'R':
-          x = x + 1
+          x++
           break
         case 'D':
-          y = y - 1
+          y--
           break
         default:
             console.log('wtf?')
