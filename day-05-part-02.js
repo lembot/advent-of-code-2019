@@ -84,8 +84,6 @@ const intcodeProgram = input => {
         return(0)
         break
     }
-
-
   }
   return memory
 }
