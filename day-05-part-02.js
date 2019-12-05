@@ -5,83 +5,82 @@ const intcodeProgram = input => {
   
     for (let i = 0; memory[i] !== 99;) {
       let instruction = memory[i].toString()
-      let opCodeLen = instruction.length
+      let modes = instruction.split('').reverse().join('').slice(2, instruction.length)
+      let [
+        p1Mode = 0,
+        p2Mode = 0
+      ] = [...modes].map(numAsString => {
+        return parseInt(numAsString)
+      })
+      let val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
+      let val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
       let opCode = parseInt(instruction.slice(instruction.length - 2, instruction.length))
 
-      let modes = instruction.split('').reverse().join('').slice(2, instruction.length)
-      let p1Mode = modes[0] ? parseInt(modes[0]) : 0
-      let p2Mode = modes[1] ? parseInt(modes[1]) : 0
-      let p3Mode = modes[2] ? parseInt(modes[2]) : 0
-      let val1 = ''
-      let val2 = ''
-      let val3 = ''
-
+    // OPERATIONS
     switch (opCode) {
+
+      // ADDITION
       case 1:
-        // add
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         memory[memory[i + 3]] = val1 + val2
         if (i !== memory[i + 3]) {
           i = i + 4
         }
         break
+
+      // MULTIPLICATION
       case 2:
-        // multiply
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         memory[memory[i + 3]] = val1 * val2
         if (i !== memory[i + 3]) {
           i = i + 4
         }
         break
+
+      // INPUT
       case 3:
-        // input
         memory[memory[i + 1]] = parseInt(prompt())
         i = i + 2
         break
+      
+      // OUTPUT
       case 4:
-        // output
         console.log(p1Mode ? memory[i + 1] : memory[memory[i + 1]])
         i = i + 2
         break
+
+      // JUMP-IF-TRUE
       case 5:
-        // jump-if-true
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         val1 !== 0 ? i = val2 : i = i + 3
         break
+
+      // JUMP-IF-FALSE
       case 6:
-        // jump-if-false
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         val1 === 0 ? i = val2 : i = i + 3
         break
+
+      // LESS THAN
       case 7:
-        // less than
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         val1 < val2 ? memory[memory[i + 3]] = 1 : memory[memory[i + 3]] = 0
-        if (i !== val3) {
+        if (i !== memory[i + 3]) {
           i = i + 4
         }
         break
+
+      // EQUALS
       case 8:
-        // equals
-        val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-        val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
         val1 === val2 ? memory[memory[i + 3]] = 1 : memory[memory[i + 3]] = 0
-        if (i !== val3) {
+        if (i !== memory[i + 3]) {
           i = i + 4
         }
         break
+      
+      // END PROGRAM
       case 99:
         return(1)
-        break
+
+      // ERROR
       default:
         console.error('IDK')
         return(0)
-        break
     }
   }
   return memory
