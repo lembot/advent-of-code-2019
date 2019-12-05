@@ -61,7 +61,6 @@ const intcodeProgram = input => {
         // less than
         val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
         val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
-        val3 = p3Mode ? memory[i + 3] : memory[memory[i + 3]]
         val1 < val2 ? memory[memory[i + 3]] = 1 : memory[memory[i + 3]] = 0
         if (i !== val3) {
           i = i + 4
