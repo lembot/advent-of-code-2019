@@ -27,7 +27,7 @@ const generatePointsFromPath = (commands) => {
           y--
           break
         default:
-            console.log('wtf?')
+          console.log('wtf?')
       }
       points.push({
         x,
