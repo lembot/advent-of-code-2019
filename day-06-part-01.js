@@ -25,7 +25,7 @@ class OrbitStructure {
     while (pos !== -1) {
       count++
       pos = this.relations.findIndex(obj => {
-          return obj.child === this.relations[pos].parent
+        return obj.child === this.relations[pos].parent
       })
     }
     return count
