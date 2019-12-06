@@ -11,6 +11,7 @@ const intcodeProgram = input => {
   
   for (let i = 0; memory[i] !== 99;) {
     let instruction = memory[i].toString()
+    // There are also potential modes that are important, but not always provided...
     let modes = instruction.split('').reverse().join('').slice(2, instruction.length)
     let [
       p1Mode = 0,
