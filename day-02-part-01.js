@@ -1,23 +1,39 @@
+/**
+ * Takes initial memory and performs actions based on the provided
+ * instructions.
+ * @param {string} input Comma delimited list representing initial memory
+ *                       for the program.
+ */
 const intcodeProgram = input => {
   let instructions = input.split(',').map(num => {
     return parseInt(num)
   })
 
+  // Instructions are 4 digits long
+  // Digit 1 - Operation to perform.
+  // Digit 2 - Parameter. What position to pull the number from.
+  // Digit 3 - Parameter. What position to pull the number from.
+  // Digit 4 - Target position to store computed number in
   for (let i = 0; instructions[i] !== 99; i = i + 4) {
     let val1 = instructions[instructions[i + 1]]
     let val2 = instructions[instructions[i + 2]]
     let targetPos = instructions[i + 3]
 
     switch(instructions[i]) {
+
+      // Addition of params 2 and 3
       case 1:
         instructions[targetPos] = val1 + val2
         break
+
+      // Multiplication of params 2 and 3
       case 2:
         instructions[targetPos] = val1 * val2
         break
+
+      // Something went wrong...
       default:
         return(`UNKNOWN INSTRUCTION AT POSITION ${i}`)
-        break
     }
   }
   return instructions
