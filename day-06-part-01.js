@@ -1,4 +1,7 @@
 class OrbitStructure {
+
+  // this.objects represents each object in this map
+  // this.relations is a list of all relations, child to parent
   constructor() {
     this.objects = new Set()
     this.relations = []        
@@ -13,10 +16,12 @@ class OrbitStructure {
     })
   }
 
+  // Return list of objects as array
   getAllObjects() {
     return [...this.objects]
   }
 
+  // Get total number of direct and indirect orbits
   getAllOrbits(identifier) {
     let count = 0
     let pos = this.relations.findIndex(obj => {
@@ -39,6 +44,7 @@ input.split(',').forEach(relation => {
   orbitMap.push(relation.split(')')[0], relation.split(')')[1])
 })
 
+// Get sum
 orbitMap.getAllObjects().reduce((total, object) => {
   return total + orbitMap.getAllOrbits(object)
 }, 0)
