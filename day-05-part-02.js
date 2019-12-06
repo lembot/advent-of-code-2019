@@ -1,25 +1,32 @@
+/**
+ * Takes initial memory and performs actions based on the provided
+ * instructions.
+ * @param {string} input Comma delimited list representing initial memory
+ *                       for the program.
+ */
 const intcodeProgram = input => {
   let memory = input.split(',').map(num => {
     return parseInt(num)
   })
   
-    for (let i = 0; memory[i] !== 99;) {
-      let instruction = memory[i].toString()
-      let modes = instruction.split('').reverse().join('').slice(2, instruction.length)
-      let [
-        p1Mode = 0,
-        p2Mode = 0
-      ] = [...modes].map(numAsString => {
-        return parseInt(numAsString)
-      })
-      let val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
-      let val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
-      let opCode = parseInt(instruction.slice(instruction.length - 2, instruction.length))
+  for (let i = 0; memory[i] !== 99;) {
+    let instruction = memory[i].toString()
+    let modes = instruction.split('').reverse().join('').slice(2, instruction.length)
+    let [
+      p1Mode = 0,
+      p2Mode = 0
+    ] = [...modes].map(numAsString => {
+      return parseInt(numAsString)
+    })
+    let val1 = p1Mode ? memory[i + 1] : memory[memory[i + 1]]
+    let val2 = p2Mode ? memory[i + 2] : memory[memory[i + 2]]
+    // The opcode CAN be given as 01, in which case it needs to be trimmed to just 1
+    let opCode = parseInt(instruction.slice(instruction.length - 2, instruction.length))
 
-    // OPERATIONS
+    // Operations
     switch (opCode) {
 
-      // ADDITION
+      // Addition
       case 1:
         memory[memory[i + 3]] = val1 + val2
         if (i !== memory[i + 3]) {
@@ -27,7 +34,7 @@ const intcodeProgram = input => {
         }
         break
 
-      // MULTIPLICATION
+      // Multiplication
       case 2:
         memory[memory[i + 3]] = val1 * val2
         if (i !== memory[i + 3]) {
@@ -35,29 +42,29 @@ const intcodeProgram = input => {
         }
         break
 
-      // INPUT
+      // Store value
       case 3:
         memory[memory[i + 1]] = parseInt(prompt())
         i = i + 2
         break
       
-      // OUTPUT
+      // Retrieve value
       case 4:
         console.log(p1Mode ? memory[i + 1] : memory[memory[i + 1]])
         i = i + 2
         break
 
-      // JUMP-IF-TRUE
+      // jump-if-true
       case 5:
         val1 !== 0 ? i = val2 : i = i + 3
         break
 
-      // JUMP-IF-FALSE
+      // jump-if-false
       case 6:
         val1 === 0 ? i = val2 : i = i + 3
         break
 
-      // LESS THAN
+      // Param1 less than param2
       case 7:
         val1 < val2 ? memory[memory[i + 3]] = 1 : memory[memory[i + 3]] = 0
         if (i !== memory[i + 3]) {
@@ -65,7 +72,7 @@ const intcodeProgram = input => {
         }
         break
 
-      // EQUALS
+      // Param1 equals param2
       case 8:
         val1 === val2 ? memory[memory[i + 3]] = 1 : memory[memory[i + 3]] = 0
         if (i !== memory[i + 3]) {
@@ -73,11 +80,11 @@ const intcodeProgram = input => {
         }
         break
       
-      // END PROGRAM
+      // Finish
       case 99:
         return(1)
 
-      // ERROR
+      // Problem :()
       default:
         console.error('IDK')
         return(0)
