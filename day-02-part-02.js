@@ -1,8 +1,19 @@
+/**
+ * Takes initial memory and performs actions based on the provided
+ * instructions.
+ * @param {string} input Comma delimited list representing initial memory
+ *                       for the program.
+ */
 const intcodeProgram = input => {
   let memory = input.split(',').map(num => {
     return parseInt(num)
   })
 
+  // Instructions are 4 digits long
+  // Digit 1 - Operation to perform.
+  // Digit 2 - Parameter. What position to pull the number from.
+  // Digit 3 - Parameter. What position to pull the number from.
+  // Digit 4 - Target position to store computed number in
   for (let i = 0; memory[i] !== 99; i = i + 4) {
     let instruction = memory[i]
     let paramVal1 = memory[memory[i + 1]]
@@ -10,20 +21,28 @@ const intcodeProgram = input => {
     let paramTarget = memory[i + 3]
 
     switch(instruction) {
+
+      // Addition of params 2 and 3
       case 1:
         memory[paramTarget] = paramVal1 + paramVal2
         break
+
+      // Multiplication of params 2 and 3
       case 2:
         memory[paramTarget] = paramVal1 * paramVal2
         break
+
+      // Something went wrong...
       default:
         return(`UNKNOWN INSTRUCTION AT POSITION ${i}`)
-        break
     }
   }
   return memory
 }
 
+
+// Replace initial digits at position 2 and position 3 with (0-99) and get the computed answer in position 0.
+// We need to find what noun (pos 2) and verb (pos 3) give us 19690720 in pos 0.
 (function(){
   for (let noun = 0; noun <= 99; noun++) {
   for (let verb = 0; verb <= 99; verb++) {
