@@ -1,5 +1,7 @@
-/* eslint-disable indent */
 class OrbitStructure {
+
+  // this.objects represents each object in this map
+  // this.relations is a list of all relations, child to parent
   constructor() {
     this.objects = new Set()
     this.relations = []        
@@ -14,10 +16,12 @@ class OrbitStructure {
     })
   }
 
+  // Return list of objects as array
   getAllObjects() {
     return [...this.objects]
   }
 
+  // Get total number of direct and indirect orbits for an object
   getAllOrbitsByCount(identifier) {
     let count = 0
     let pos = this.relations.findIndex(obj => {
@@ -32,6 +36,7 @@ class OrbitStructure {
     return count
   }
 
+  // Get list of direct and indirect orbit identifiers for an object
   getAllOrbitsByName(identifier) {
     let path = []
     let pos = this.relations.findIndex(obj => {
@@ -46,6 +51,7 @@ class OrbitStructure {
     return path
   }
 
+  // Determine the distance from YOU to SAN
   getDistToSan() {
     let youPath = this.getAllOrbitsByName('YOU')
     let sanPath = this.getAllOrbitsByName('SAN')
